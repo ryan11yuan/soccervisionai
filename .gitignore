@@ -1,0 +1,8 @@
+# Generated videos
+*.avi
+*.mp4
+
+# YOLO outputs
+runs/
+output_videos/
+input_videos/
