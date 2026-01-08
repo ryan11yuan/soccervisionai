@@ -21,13 +21,15 @@ Provides player tracking, team assignment, ball tracking, and possession statist
 
 ![screenshot of video frame](image.png)
 
+![formation detection](image-1.png)
+
 ## Features
 
-- Multi-object detection and tracking (players, referees, ball)
-- Automatic team classification using K-means clustering
-- Real-time possession analysis
-- Annotated video output with color-coded overlays
-- Performance optimized with batch processing and caching
+- **Multi-object detection and tracking** (players, referees, ball)
+- **Automatic team classification** using K-means clustering on jersey colors
+- **Real-time possession analysis** with frame-by-frame tracking
+- **Formation Analysis** - Automatically detects team formations (4-4-2, 4-3-3, etc.)
+- **Formation Diagrams** - Generates tactical visualizations at start, middle, and end of match
 
 ## Installation
 
@@ -102,11 +104,44 @@ python main.py
 - Assign ball to closest player
 - Track possession changes frame-by-frame
 
-**4. Video Annotation**
+**4. Formation Analysis**
+
+- Analyzes player positions at key moments (start, middle, end)
+- Uses K-means clustering on field depth to identify formation lines
+- Detects formations: 4-4-2, 4-3-3, 3-5-2, 4-2-3-1, and more
+- Handles camera perspective distortion for accurate positioning
+- Generates tactical field diagrams with:
+  - Player positions and IDs
+  - Ball location
+  - Formation labels
+  - Team colors
+
+**5. Video Annotation**
 
 - Draw color-coded ellipses for teams
 - Mark ball position
-- Generate output video
+- Display possession statistics
+- Generate annotated output video
+
+## Output Files
+
+After running `main.py`, you'll get:
+
+**Video Analysis:**
+
+- `output_videos/output_video.avi` - Annotated match video with tracking and possession stats
+
+**Formation Diagrams (PNG):**
+
+- `team1_formation_start.png` - Team 1 formation at match start
+- `team1_formation_middle.png` - Team 1 formation at match midpoint
+- `team1_formation_end.png` - Team 1 formation at match end
+- `team2_formation_start.png` - Team 2 formation at match start
+- `team2_formation_middle.png` - Team 2 formation at match midpoint
+- `team2_formation_end.png` - Team 2 formation at match end
+- `formations_comparison_start.png` - Side-by-side comparison (start)
+- `formations_comparison_middle.png` - Side-by-side comparison (middle)
+- `formations_comparison_end.png` - Side-by-side comparison (end)
 
 ## Configuration
 
@@ -126,9 +161,28 @@ tracks = tracker.get_object_tracks(
     stub_path='stubs/tracks_stub.pkl'
 )
 
+# Formation analysis runs automatically
+# Outputs saved to output_videos/
+
 # Output video
 save_video(output_frames, 'output_videos/YOUR_OUTPUT.avi')
 ```
+
+### Supported Formations
+
+The system automatically detects these formations:
+
+- 4-4-2 (Classic)
+- 4-3-3 (Attacking)
+- 3-5-2 (Defensive midfield)
+- 4-2-3-1 (Modern standard)
+- 3-4-3 (Wing-backs)
+- 5-3-2 (Ultra defensive)
+- 4-5-1 (Defensive)
+- 5-4-1 (Counter-attack)
+- 3-4-2-1 (Diamond midfield)
+
+_Custom formations are generated when player positioning doesn't match standard patterns._
 
 ## Author
 
